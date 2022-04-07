@@ -1,7 +1,7 @@
 ---
 - name: Install default Apache web server
   hosts: all
-#  become: yes
+  become: yes
 
   vars:
     source_file: /home/marat/ansible/index.html
