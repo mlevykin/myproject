@@ -1,0 +1,31 @@
+---
+- name: Install default Apache web server
+  hosts: linux_servers
+  become: yes
+
+  vars:
+    source_file: /home/marat/ansible/index.html
+    dest_file: /var/www/html
+
+
+  tasks:
+  - name: Install Apache WebServer
+    apt: name=nginx state=latest
+
+  - name: Copy my homepage to Servers
+    copy: src={{source_file}} dest={{dest_file}} mode=555
+    notify: "Restart Nginx and ping"
+
+
+  - name: Start Web Server and insert in boot
+    service: name=nginx state=started enabled=yes
+
+
+  handlers:
+  - name: Restart Nginx
+    service: name=nginx state=restarted
+    listen: "Restart Nginx and ping"
+
+  - name: Simple Msg
+    ping: 
+    listen: "Restart Nginx and ping"

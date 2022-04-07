@@ -1,0 +1,39 @@
+---
+- name: Install default Apache web server
+  hosts: all
+#  become: yes
+
+  vars:
+    source_file: /home/marat/ansible/index.html
+    dest_file: /var/www/html
+
+  tasks:
+  - name: Print OS version
+    debug: 
+      var: ansible_os_family
+
+  - block:
+      - name: Install Apache WebServer on linux
+        apt: name=nginx state=latest
+
+      - name: Copy my homepage to Servers
+        copy: src={{source_file}} dest={{dest_file}} mode=555
+        notify: "Restart Nginx and ping"
+
+      - name: Start Web Server and insert in boot
+        service: name=nginx state=started enabled=yes
+
+    when: ansible_os_family=="Debian"
+    become: yes
+
+
+
+  handlers:
+  - name: Restart Nginx
+    service: name=nginx state=restarted
+    become: yes
+    listen: "Restart Nginx and ping"
+
+  - name: Simple Msg
+    ping: 
+    listen: "Restart Nginx and ping"

@@ -1,0 +1,41 @@
+---
+- name: Variables Example
+  hosts: linux_servers
+  become: yes
+
+
+  vars:
+    msg1: hi
+    msg2: bye
+    secret: DFSFSDFDSFDSF
+
+
+  tasks:
+
+  - name: Print Secret variable
+    debug: 
+      var: secret
+
+
+  - debug: 
+      msg: "Secret word : {{ secret }}"
+
+
+  - debug:
+      msg: "Who is owner of this server --->>> {{owner}} "
+
+  - set_fact: full_message="{{ msg1 }}  {{msg2}}  {{secret}}"
+
+  - debug:
+      var: full_message
+
+  - debug:
+      var: ansible_distribution
+
+
+  - shell: pwd
+    register: result_pwd
+
+
+  - debug:
+      var: result_pwd.stdout

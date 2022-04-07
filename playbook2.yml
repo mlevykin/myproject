@@ -1,0 +1,13 @@
+---
+- name: Install default Apache web server
+  hosts: linux_servers
+  become: yes
+
+
+  tasks:
+  - name: Install Apache WebServer
+    apt: name=nginx state=latest
+
+
+  - name: Start Apache and Enable it during boot
+    service: name=nginx state=started enabled=yes

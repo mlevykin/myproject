@@ -1,0 +1,22 @@
+---
+- name: Test Connection to ubuntu server
+  hosts: ls1
+  become: yes
+
+
+  tasks:
+
+  - name: Ping my servers
+    ping:
+ 
+
+- name: Test Connection to win10 server
+  hosts: win10
+
+
+  tasks:
+
+  - name: Ping my servers
+    win_ping:
+
+
